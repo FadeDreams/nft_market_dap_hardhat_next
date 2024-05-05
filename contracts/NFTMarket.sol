@@ -1,7 +1,11 @@
+
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+
 
 contract NFTMarketplace is ERC721URIStorage {
     using Counters for Counters.Counter;
@@ -10,6 +14,7 @@ contract NFTMarketplace is ERC721URIStorage {
 
     uint256 listingPrice = 0.001 ether;
     address payable owner;
+
 
     constructor() ERC721("Metaverse Tokens","META"){
         owner = payable(msg.sender);
@@ -58,6 +63,7 @@ contract NFTMarketplace is ERC721URIStorage {
         emit MarketItemCreated(tokenId,msg.sender,address(this),price,false);
     }
 
+
     function createToken(string memory tokenURI,uint256 price) public payable returns(uint){
         _tokenIds.increment();
         uint256 newTokenId = _tokenIds.current();
@@ -79,6 +85,7 @@ contract NFTMarketplace is ERC721URIStorage {
         payable(owner).transfer(listingPrice);
         payable(seller).transfer(msg.value);
     }
+
 
     function fetchMarketItems() public view returns(MarketItem[] memory){
         uint itemCount = _tokenIds.current();
@@ -135,7 +142,7 @@ contract NFTMarketplace is ERC721URIStorage {
         MarketItem[] memory items = new MarketItem[](itemCount);
         for(uint i=0; i < totalItemCount; i++){
             if(idToMarketItem[i+1].seller == msg.sender){
-                uint currentId = i+1;
+                uint currentId = i+1; // it will work as the tokenId
                 MarketItem storage currentItem = idToMarketItem[currentId];
                 items[currentIndex] = currentItem;
                 currentIndex += 1;
@@ -143,6 +150,7 @@ contract NFTMarketplace is ERC721URIStorage {
         }
         return items;
     }
+
 
     function resellToken(uint256 tokenId,uint256 price) public payable {
         require(idToMarketItem[tokenId].owner == msg.sender,"Only item owner can perform this operation");
@@ -155,6 +163,7 @@ contract NFTMarketplace is ERC721URIStorage {
         _transfer(msg.sender,address(this),tokenId);
     }
 
+
     function cancelItemListing(uint256 tokenId) public {
         require(idToMarketItem[tokenId].seller == msg.sender,"Only item seller can perform this operation");
         require(idToMarketItem[tokenId].sold == false,"Only cancel items which are not sold yet");
@@ -165,4 +174,8 @@ contract NFTMarketplace is ERC721URIStorage {
         payable(owner).transfer(listingPrice);
         _transfer(address(this),msg.sender,tokenId);
     }
+
+
+
+
 }
