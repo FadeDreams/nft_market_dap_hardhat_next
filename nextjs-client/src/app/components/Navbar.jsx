@@ -15,6 +15,11 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
+          <Link href="/create-nft" className="text-white hover:text-blue-200">
+            Create NFT
+          </Link>
+        </li>
+        <li>
           <Link href="/my-nft" className="text-white hover:text-blue-200">
             My NFT
           </Link>
