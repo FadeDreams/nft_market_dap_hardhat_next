@@ -20,7 +20,6 @@ export default function createNFT() {
   async function imageUpload(e) {
     const file = e.target.files[0];
     try {
-
       const formData = new FormData();
       formData.append("file", file);
       const resFile = await axios({
@@ -84,9 +83,14 @@ export default function createNFT() {
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
     const getnetwork = await provider.getNetwork();
-    const goerliChainId = 5;
-    if (getnetwork.chainId != goerliChainId) {
-      alert("You are not connected to Goerli network");
+    // const goerliChainId = 5;
+    // if (getnetwork.chainId != goerliChainId) {
+    //   alert("You are not connected to Goerli network");
+    //   return;
+    // }
+    const localhostChainId = 31337;
+    if (getnetwork.chainId != localhostChainId) {
+      alert("You are not connected to localhost network");
       return;
     }
     // sign the transaction

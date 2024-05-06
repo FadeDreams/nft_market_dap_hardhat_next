@@ -44,6 +44,11 @@ export default function Home() {
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
     const getnetwork = await provider.getNetwork();
+    // const goerliChainId = 5;
+    // if (getnetwork.chainId != goerliChainId) {
+    //   alert("You are not connected to Goerli network");
+    //   return;
+    // }
     const localhostChainId = 31337;
     if (getnetwork.chainId != localhostChainId) {
       alert("You are not connected to localhost network");
